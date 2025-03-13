@@ -13,4 +13,7 @@ WORKDIR /root/
 COPY --from=builder /go/src/github.com/github.com/get-got/discord-downloader-go/app .
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-ENTRYPOINT ["./app"]
+RUN mkdir -p /out
+WORKDIR /out
+
+ENTRYPOINT ["/root/app"]
