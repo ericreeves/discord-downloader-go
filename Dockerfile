@@ -1,7 +1,6 @@
 FROM golang:1.23-alpine AS builder
 
-RUN mkdir /out/
-RUN apk update && apk upgrade && apk --no-cache add ca-certificates
+RUN apk update && apk upgrade && apk --no-cache add ca-certificates sh fdupes
 
 COPY . /go/src/github.com/github.com/get-got/discord-downloader-go
 WORKDIR /go/src/github.com/github.com/get-got/discord-downloader-go
@@ -14,6 +13,4 @@ WORKDIR /root/
 COPY --from=builder /go/src/github.com/github.com/get-got/discord-downloader-go/app .
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-WORKDIR /out/
-
-ENTRYPOINT ["/root/app"]
+ENTRYPOINT ["./app"]
